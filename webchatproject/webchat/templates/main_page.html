@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Join chat or <a href="{% url 'create_chat' %}">create a new one</a></h1>
+    <br>
+    <input id="room-name-input" type="text" size="100"><br>
+    <input id="room-name-submit" type="button" value="Enter"><br>
+    <div id="error-message"></div>
+    <h2>Your chat history</h2>
+    <ul class="chat-list" id="chat-list">
+        {% for chat in chats %}
+            <li class='chat-item' data-chat-id="{{ chat.id }}" data-chat-name="{{ chat.name }}">
+                {{ chat.name }}
+            </li>
+        {% empty %}
+            <li>You have no  chats.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+
