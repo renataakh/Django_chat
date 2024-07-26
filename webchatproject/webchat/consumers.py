@@ -29,12 +29,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         # grabbing the name of the room from scope
         self.room_name = self.get_room_name()
 
-        if not self.is_valid_room_name(self.room_name):
-            await self.send(text_data=json.dumps({
-                'error': 'Invalid room name. Please use only letters, numbers, and underscores.'
-            }))
-            return
-
         # creating the new attribute (name of the "room")
         self.room_group_name = "chat_%s" % self.room_name
 
@@ -130,19 +124,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_room_name(self):
         return self.scope["url_route"]["kwargs"]["room_name"]
 
-    def is_valid_room_name(self, room_name):
-        return re.match(r'^[\w]+$', room_name) is not None
-
     @database_sync_to_async
     def create_new_chat(self):
         pass
-
 
     @database_sync_to_async
     def get_chat(self):
         chat, created = Chat.objects.get_or_create(name=self.get_room_name())
         return chat
-
 
     @database_sync_to_async
     def save_message(self, sender, content, chat):

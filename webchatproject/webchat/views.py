@@ -1,14 +1,18 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from .models import Chat
+
 
 
 # Create your views here.
 @login_required
 def main_page(request):
-    user = get_user_model()
+    user = request.user
+    chats = Chat.objects.filter(chat_members__user=user)
     d = {
-        'title': f'welcome {user.username}'
+        'title': f'welcome {user.username}',
+        'chats': chats
     }
     return render(request, 'main_page.html', d)
 
