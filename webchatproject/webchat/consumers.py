@@ -71,7 +71,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def fetch_messages(self, data):
         print('inside fetch_messages')
         chat = await self.get_chat()
-        messages = await self.last_20_messages(chat)
+        messages = (await self.last_20_messages(chat))[::-1]
 
         messages_json = [await sync_to_async(message_to_json)(message) for message in messages]
         content = {

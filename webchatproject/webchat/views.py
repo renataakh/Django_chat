@@ -4,7 +4,6 @@ from django.shortcuts import render
 from .models import Chat
 
 
-
 # Create your views here.
 @login_required
 def main_page(request):
